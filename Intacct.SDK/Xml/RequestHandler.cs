@@ -27,6 +27,8 @@ namespace Intacct.SDK.Xml
 {
     public class RequestHandler
     {
+        private static HttpClient client;
+
         public const string Version = "3.1.0";
 
         public ClientConfig ClientConfig;
@@ -42,6 +44,10 @@ namespace Intacct.SDK.Xml
             this.ClientConfig = clientConfig;
 
             this.RequestConfig = requestConfig;
+
+            client = new HttpClient(GetHttpMessageHandler());
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip,deflate");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("intacct-sdk-net-client/" + RequestHandler.Version);
         }
         
         public async Task<OnlineResponse> ExecuteOnline(List<IFunction> content)
@@ -122,10 +128,7 @@ namespace Intacct.SDK.Xml
 
         private async Task<Stream> Execute(Stream requestXml)
         {
-            HttpClient client = new HttpClient(GetHttpMessageHandler());
             client.Timeout = this.RequestConfig.MaxTimeout;
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip,deflate");
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("intacct-sdk-net-client/" + RequestHandler.Version);
 
             requestXml.Position = 0;
             StreamContent content = new StreamContent(requestXml);

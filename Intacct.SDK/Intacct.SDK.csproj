@@ -12,6 +12,8 @@
     <PackageReleaseNotes>https://github.com/Intacct/intacct-sdk-net/releases</PackageReleaseNotes>
     <Copyright>Copyright © 2020 Sage Intacct, Inc.</Copyright>
     <PackageTags>intacct sdk sage</PackageTags>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>G:\Documents\intacct-sdk-net\Intacct.Sdk.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

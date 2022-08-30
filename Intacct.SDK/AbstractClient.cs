@@ -24,6 +24,8 @@ namespace Intacct.SDK
 {
     public abstract class AbstractClient
     {
+        private static RequestHandler requestHandler;
+
         protected const string ProfileEnvName = "INTACCT_PROFILE";
 
         public ClientConfig Config;
@@ -53,16 +55,17 @@ namespace Intacct.SDK
                 config.Credentials = new LoginCredentials(config, new SenderCredentials(config));
             }
             this.Config = config;
+
+            requestHandler = new RequestHandler(this.Config, new RequestConfig());
+
         }
         
         protected async Task<OnlineResponse> ExecuteOnlineRequest(List<IFunction> functions, RequestConfig requestConfig = null)
         {
-            if (requestConfig == null)
+            if (requestConfig != null)
             {
-                requestConfig = new RequestConfig();
+                requestHandler.RequestConfig = requestConfig;
             }
-            
-            RequestHandler requestHandler = new RequestHandler(this.Config, requestConfig);
 
             OnlineResponse response = await requestHandler.ExecuteOnline(functions).ConfigureAwait(false);
 
@@ -71,13 +74,11 @@ namespace Intacct.SDK
 
         protected async Task<OfflineResponse> ExecuteOfflineRequest(List<IFunction> functions, RequestConfig requestConfig = null)
         {
-            if (requestConfig == null)
+            if (requestConfig != null)
             {
-                requestConfig = new RequestConfig();
+                requestHandler.RequestConfig = requestConfig;
             }
             
-            RequestHandler requestHandler = new RequestHandler(this.Config, requestConfig);
-
             OfflineResponse response = await requestHandler.ExecuteOffline(functions).ConfigureAwait(false);
 
             return response;
