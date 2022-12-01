@@ -39,8 +39,6 @@ namespace Intacct.SDK
             }
         }
 
-        public TimeSpan MaxTimeout;
-
         private int[] _noRetryServerErrorCodes;
 
         public int[] NoRetryServerErrorCodes
@@ -70,7 +68,6 @@ namespace Intacct.SDK
             this.ControlId = (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds.ToString();
             this.Encoding = Encoding.GetEncoding("UTF-8");
             this.MaxRetries = 5;
-            this.MaxTimeout = TimeSpan.FromSeconds(300);
             this.NoRetryServerErrorCodes = new int[] { 524 };
             this.PolicyId = "";
             this.Transaction = false;

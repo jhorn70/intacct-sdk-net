@@ -1,5 +1,6 @@
 ﻿using Intacct.SDK.Logging;
 using Microsoft.Extensions.Logging;
+using System;
 using Xunit;
 
 namespace Intacct.SDK.Tests
@@ -25,6 +26,7 @@ namespace Intacct.SDK.Tests
             Assert.Null(clientConfig.Logger);
             Assert.Equal(LogLevel.Debug, clientConfig.LogLevel);
             Assert.IsType<MessageFormatter>(clientConfig.LogMessageFormatter);
+            Assert.Equal(TimeSpan.FromSeconds(300), clientConfig.MaxTimeout);
         }
     }
 }

@@ -48,6 +48,7 @@ namespace Intacct.SDK.Xml
             client = new HttpClient(GetHttpMessageHandler());
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip,deflate");
             client.DefaultRequestHeaders.UserAgent.ParseAdd("intacct-sdk-net-client/" + RequestHandler.Version);
+            client.Timeout = clientConfig.MaxTimeout;
         }
         
         public async Task<OnlineResponse> ExecuteOnline(List<IFunction> content)
@@ -128,8 +129,6 @@ namespace Intacct.SDK.Xml
 
         private async Task<Stream> Execute(Stream requestXml)
         {
-            client.Timeout = this.RequestConfig.MaxTimeout;
-
             requestXml.Position = 0;
             StreamContent content = new StreamContent(requestXml);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");

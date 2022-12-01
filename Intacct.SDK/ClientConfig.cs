@@ -17,6 +17,7 @@ using Intacct.SDK.Credentials;
 using Intacct.SDK.Logging;
 using Intacct.SDK.Xml.Request;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Intacct.SDK
 {
@@ -53,10 +54,13 @@ namespace Intacct.SDK
 
         public MockHandler MockHandler;
 
+        public TimeSpan MaxTimeout;
+
         public ClientConfig()
         {
             this.LogLevel = LogLevel.Debug;
             this.LogMessageFormatter = new MessageFormatter();
+            this.MaxTimeout = TimeSpan.FromSeconds(300);
         }
     }
 }
